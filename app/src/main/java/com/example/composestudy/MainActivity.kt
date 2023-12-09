@@ -3,18 +3,22 @@ package com.example.composestudy
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,32 +33,23 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ComposeStudyTheme {
-                modifierEx()
+                Greeting("종석")
             }
         }
     }
 }
 
 @Composable
-fun modifierEx() {
-    Button(
-        modifier = Modifier
-            .padding(10.dp),
-        shape = RoundedCornerShape(20.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Magenta
-        ),
-        onClick = {}
+fun Greeting(name: String) {
+    Surface(
+        modifier = Modifier.padding(12.dp),
+        border = BorderStroke(width = 2.dp, color = Color.Magenta),
+        shape = CircleShape,
+        color = MaterialTheme.colorScheme.secondary
     ) {
-        Icon(
-            imageVector = Icons.Default.Search,
-            contentDescription = null
-        )
-        Spacer(
-            modifier = Modifier.size(ButtonDefaults.IconSpacing)
-        )
         Text(
-            text = "Search"
+            modifier = Modifier.padding(8.dp),
+            text = "Hello $name"
         )
     }
 }
@@ -102,6 +97,6 @@ fun modifierEx() {
 @Composable
 fun GreetingPreview() {
     ComposeStudyTheme {
-        modifierEx()
+        Greeting("종석")
     }
 }
