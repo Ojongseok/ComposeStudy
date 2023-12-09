@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,6 +25,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -34,6 +36,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,36 +49,23 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ComposeStudyTheme {
-                Outer()
+                Greeting()
             }
         }
     }
 }
 
 @Composable
-fun Outer() {
+fun Greeting() {
     Column {
-        Inner(
-            Modifier
-            .widthIn(min = 100.dp, max = 350.dp)
-            .heightIn(min = 20.dp, max = 200.dp)
+        Image(
+            painter = painterResource(id = R.drawable.image_grand_canyon),
+            contentDescription = "그랜드 캐니언"
         )
-    }
-}
 
-@Composable
-fun Inner(modifier: Modifier = Modifier) {
-    BoxWithConstraints(
-        modifier = modifier
-    ) {
-        if (maxHeight > 100.dp) {
-            Text(
-                text = "여기 꽤 길군요 ?",
-                modifier = modifier.align(Alignment.BottomCenter)
-            )
-        }
-        Text(
-            text = "maxW: $maxWidth maxH: $maxHeight minW: $minWidth minH: $minHeight"
+        Image(
+            imageVector = Icons.Filled.Settings,
+            contentDescription = "세팅"
         )
     }
 }
@@ -84,6 +74,6 @@ fun Inner(modifier: Modifier = Modifier) {
 @Composable
 fun DefaultPreview() {
     ComposeStudyTheme {
-        Outer()
+        Greeting()
     }
 }
