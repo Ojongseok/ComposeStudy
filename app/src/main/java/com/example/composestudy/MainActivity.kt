@@ -7,6 +7,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -41,48 +42,66 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ComposeStudyTheme {
-                RowEx()
+                ColumnEx()
             }
         }
     }
 }
 
 @Composable
-fun RowEx() {
-    Row(
-        modifier = Modifier.size(200.dp, 40.dp),
-        verticalAlignment = Alignment.Bottom,
-        horizontalArrangement = Arrangement.SpaceBetween
+fun ColumnEx() {
+    Column(
+        modifier = Modifier.size(120.dp),
+        horizontalAlignment = Alignment.End
     ) {
         Text(
-            text = "첫번째 !!",
-            modifier = Modifier
-                .align(Alignment.Top)
-                .weight(2f)
-                .background(Color.Magenta),
-            textAlign = TextAlign.End
+            text = "첫번째!",
+            modifier = Modifier.align(Alignment.CenterHorizontally)
         )
-        Icon(
-            modifier = Modifier
-                .weight(1f)
-                .background(Color.Cyan),
-            imageVector = Icons.Filled.Add,
-            contentDescription = null
-        )
+        Text(text = "두번째!")
         Text(
-            modifier = Modifier
-                .weight(3f)
-                .background(Color.Yellow),
-            text = "세번째 !!",
-            textAlign = TextAlign.Center
+            text = "세번째!",
+            modifier = Modifier.align(Alignment.Start)
         )
     }
 }
+
+//@Composable
+//fun RowEx() {
+//    Row(
+//        modifier = Modifier.size(200.dp, 40.dp),
+//        verticalAlignment = Alignment.Bottom,
+//        horizontalArrangement = Arrangement.SpaceBetween
+//    ) {
+//        Text(
+//            text = "첫번째 !!",
+//            modifier = Modifier
+//                .align(Alignment.Top)
+//                .weight(2f)
+//                .background(Color.Magenta),
+//            textAlign = TextAlign.End
+//        )
+//        Icon(
+//            modifier = Modifier
+//                .weight(1f)
+//                .background(Color.Cyan),
+//            imageVector = Icons.Filled.Add,
+//            contentDescription = null
+//        )
+//        Text(
+//            modifier = Modifier
+//                .weight(3f)
+//                .background(Color.Yellow),
+//            text = "세번째 !!",
+//            textAlign = TextAlign.Center
+//        )
+//    }
+//}
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     ComposeStudyTheme {
-        RowEx()
+        ColumnEx()
     }
 }
