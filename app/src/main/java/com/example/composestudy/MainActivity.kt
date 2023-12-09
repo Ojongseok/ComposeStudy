@@ -35,12 +35,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
+import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
 import com.example.composestudy.ui.theme.ComposeStudyTheme
 
 class MainActivity : ComponentActivity() {
@@ -49,31 +52,36 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ComposeStudyTheme {
-                Greeting()
+                CoilEx()
             }
         }
     }
 }
 
 @Composable
-fun Greeting() {
-    Column {
-        Image(
-            painter = painterResource(id = R.drawable.image_grand_canyon),
-            contentDescription = "그랜드 캐니언"
-        )
+fun CoilEx() {
+    val imageUrl = "https://i.namu.wiki/i/8s6Kl-iISoyRmIXCaDtEmvHb2WKT9hDAudqp6g7Ln87xF44m0TVDnlCx5kFQw-IQVPxwi-0swj11ZofLhvKx0-w9uLY_t6jTOeHl2fTq9T69f6XDRh8jIsz_YrT2UxTP-xNS-rhIUJsjQ3Gk4APlwA.webp"
+    val painter = rememberImagePainter(data = imageUrl)
 
-        Image(
-            imageVector = Icons.Filled.Settings,
-            contentDescription = "세팅"
+    Column {
+//        Image(
+//            painter = painter,
+//            modifier = Modifier.size(160.dp),
+//            contentDescription = "그랜드 캐년"
+//        )
+        AsyncImage(
+            model = imageUrl,
+            contentDescription = "그랜드 캐년",
+            modifier = Modifier.padding(top = 20.dp)
         )
     }
+
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     ComposeStudyTheme {
-        Greeting()
+        CoilEx()
     }
 }
