@@ -34,10 +34,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -65,42 +68,70 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ComposeStudyTheme {
-                CheckBoxEx(Modifier)
+                TextFieldEx()
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CheckBoxEx(modifier: Modifier = Modifier) {
-    val (getter, setter) = remember { mutableStateOf(false) }
+fun TextFieldEx() {
+    var name by remember {
+        mutableStateOf("")
+    }
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.clickable {
-            setter(!getter)
-        }
+    Column(
+        modifier = Modifier.padding(16.dp)
     ) {
-//        var isChecked = remember  { mutableStateOf(false) }
-//        var isChecked by remember { mutableStateOf(false) }
-
-        Checkbox(
-            checked = getter,
-            onCheckedChange =  {
-                setter(it)
+        OutlinedTextField(
+            value = name,
+            label = {
+                Text(text = "이름")
+            },
+            onValueChange = {
+                name = it
+            },
+            placeholder = {
+                Text(text = "이름을 입력하세요")
             }
         )
+        Spacer(modifier = Modifier.size(8.dp))
 
-        Text(
-            text = "당신은 개발자입니까?"
-        )
+        Text(text = "Hello $name")
     }
 }
+
+//@Composable
+//fun CheckBoxEx(modifier: Modifier = Modifier) {
+//    val (getter, setter) = remember { mutableStateOf(false) }
+//
+//    Row(
+//        verticalAlignment = Alignment.CenterVertically,
+//        modifier = modifier.clickable {
+//            setter(!getter)
+//        }
+//    ) {
+////        var isChecked = remember  { mutableStateOf(false) }
+////        var isChecked by remember { mutableStateOf(false) }
+//
+//        Checkbox(
+//            checked = getter,
+//            onCheckedChange =  {
+//                setter(it)
+//            }
+//        )
+//
+//        Text(
+//            text = "당신은 개발자입니까?"
+//        )
+//    }
+//}
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     ComposeStudyTheme {
-        CheckBoxEx()
+        TextFieldEx()
     }
 }
