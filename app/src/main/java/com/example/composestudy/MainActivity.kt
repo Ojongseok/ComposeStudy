@@ -26,6 +26,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
@@ -33,14 +34,17 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -68,7 +72,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ComposeStudyTheme {
-                TextFieldEx()
+                TopBarEx("jongseok")
             }
         }
     }
@@ -76,55 +80,64 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextFieldEx() {
-    var name by remember {
-        mutableStateOf("")
-    }
-
-    Column(
-        modifier = Modifier.padding(16.dp)
-    ) {
-        OutlinedTextField(
-            value = name,
-            label = {
-                Text(text = "이름")
+fun TopBarEx(name: String) {
+    Column {
+//        TopAppBar(
+        CenterAlignedTopAppBar(
+            title = { Text(text = "TopAppBar") },
+            navigationIcon = {
+                IconButton(onClick = {}) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = null
+                    )
+                }
             },
-            onValueChange = {
-                name = it
-            },
-            placeholder = {
-                Text(text = "이름을 입력하세요")
+            actions = {
+                IconButton(onClick = {}) {
+                    Icon(
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = "검색"
+                    )
+                }
+//                IconButton(onClick = {}) {
+//                    Icon(
+//                        imageVector = Icons.Filled.Settings,
+//                        contentDescription = "설정"
+//                    )
+//                }
             }
         )
-        Spacer(modifier = Modifier.size(8.dp))
-
+        
         Text(text = "Hello $name")
     }
 }
 
+//@OptIn(ExperimentalMaterial3Api::class)
 //@Composable
-//fun CheckBoxEx(modifier: Modifier = Modifier) {
-//    val (getter, setter) = remember { mutableStateOf(false) }
+//fun TextFieldEx() {
+//    var name by remember {
+//        mutableStateOf("")
+//    }
 //
-//    Row(
-//        verticalAlignment = Alignment.CenterVertically,
-//        modifier = modifier.clickable {
-//            setter(!getter)
-//        }
+//    Column(
+//        modifier = Modifier.padding(16.dp)
 //    ) {
-////        var isChecked = remember  { mutableStateOf(false) }
-////        var isChecked by remember { mutableStateOf(false) }
-//
-//        Checkbox(
-//            checked = getter,
-//            onCheckedChange =  {
-//                setter(it)
+//        OutlinedTextField(
+//            value = name,
+//            label = {
+//                Text(text = "이름")
+//            },
+//            onValueChange = {
+//                name = it
+//            },
+//            placeholder = {
+//                Text(text = "이름을 입력하세요")
 //            }
 //        )
+//        Spacer(modifier = Modifier.size(8.dp))
 //
-//        Text(
-//            text = "당신은 개발자입니까?"
-//        )
+//        Text(text = "Hello $name")
 //    }
 //}
 
@@ -132,6 +145,6 @@ fun TextFieldEx() {
 @Composable
 fun DefaultPreview() {
     ComposeStudyTheme {
-        TextFieldEx()
+        TopBarEx("jongseok")
     }
 }
