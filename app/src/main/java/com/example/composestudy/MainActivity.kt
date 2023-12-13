@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
@@ -48,7 +50,22 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ComposeStudyTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    LazyColumnEx(itemList = items)
+                }
             }
+        }
+    }
+}
+
+@Composable
+fun LazyColumnEx(itemList: List<ItemData>) {
+    LazyColumn {
+        items(itemList) {item ->
+            Item(itemData = item)
         }
     }
 }
@@ -106,5 +123,33 @@ fun ItemPreview() {
 @Composable
 fun DefaultPreview() {
     ComposeStudyTheme {
+        LazyColumnEx(itemList = items)
     }
 }
+
+val items = listOf(
+    ItemData(
+        imageId = R.drawable.image_grand_canyon,
+        title = "해변 놀이 공원1",
+        description = "해1111변 놀이11 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ\n해변 놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ"
+    ),
+    ItemData(
+        imageId = R.drawable.image_grand_canyon,
+        title = "해변 놀이 공원2",
+        description = "해변 놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야222222 루루룰ㄹ룰ㄹ\n해변 놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ"
+    ),ItemData(
+        imageId = R.drawable.image_grand_canyon,
+        title = "해변 놀이 공원3",
+        description = "해변 놀이 공원 설명33333입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ\n해변 놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ"
+    ),
+    ItemData(
+        imageId = R.drawable.image_grand_canyon,
+        title = "해변 놀이 공원4",
+        description = "해변 놀이 공원 설명입니444444444다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ\n해변 놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ"
+    ),
+    ItemData(
+        imageId = R.drawable.image_grand_canyon,
+        title = "해변 놀이 공원5",
+        description = "해변 5555555놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ\n해변 놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ"
+    )
+)
