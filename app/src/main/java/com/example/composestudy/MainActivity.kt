@@ -6,7 +6,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -42,6 +44,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.composestudy.ui.theme.ComposeStudyTheme
 
 class MainActivity : ComponentActivity() {
@@ -54,7 +58,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    LazyColumnEx(itemList = items)
+                    ConstraintLayoutEx()
                 }
             }
         }
@@ -62,60 +66,64 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun LazyColumnEx(itemList: List<ItemData>) {
-    LazyColumn {
-        items(itemList) {item ->
-            Item(itemData = item)
-        }
-    }
-}
-
-@Composable
-fun Item(itemData: ItemData) {
-    Card(
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-        modifier = Modifier.padding(16.dp)
+fun ConstraintLayoutEx() {
+    ConstraintLayout(
+        modifier = Modifier.fillMaxSize()
     ) {
-        Column(
-            modifier = Modifier.padding(8.dp)
+        val (redBox, magentaBox, greenBox, yellowBox) = createRefs()
+
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .background(Color.Red)
+                .constrainAs(redBox) {
+                    bottom.linkTo(parent.bottom, margin = 8.dp)
+                    end.linkTo(parent.end)
+                }
         ) {
-            Image(
-                painter = painterResource(id = itemData.imageId),
-                contentDescription = null
-            )
-            Spacer(modifier = Modifier.size(8.dp))
-            Text(
-                text = itemData.title,
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.size(4.dp))
-            Text(
-                text = itemData.description,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Light
-            )
+
         }
-    }
-}
 
-data class ItemData(
-    @DrawableRes val imageId: Int,
-    val title: String,
-    val description: String
-)
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .background(Color.Magenta)
+                .constrainAs(magentaBox) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    top.linkTo(parent.top, margin = 20.dp)
+                }
+        ) {
 
-@Preview(showBackground = true)
-@Composable
-fun ItemPreview() {
-    ComposeStudyTheme {
-        Item(
-            ItemData(
-                imageId = R.drawable.image_grand_canyon,
-                title = "해변 놀이 공원",
-                description = "해변 놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ\n해변 놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ"
-            )
-        )
+        }
+
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .background(Color.Yellow)
+                .constrainAs(yellowBox) {
+                    start.linkTo(magentaBox.end)
+                    top.linkTo(magentaBox.bottom)
+                }
+        ) {
+
+        }
+
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .background(Color.Green)
+                .constrainAs(greenBox) {
+//                    start.linkTo(parent.start)
+//                    end.linkTo(parent.end)
+//                    top.linkTo(parent.top)
+//                    bottom.linkTo(parent.bottom)
+                    centerTo(parent)
+//                    centerHorizontallyTo(parent)
+                }
+        ) {
+
+        }
     }
 }
 
@@ -123,33 +131,6 @@ fun ItemPreview() {
 @Composable
 fun DefaultPreview() {
     ComposeStudyTheme {
-        LazyColumnEx(itemList = items)
+        ConstraintLayoutEx()
     }
 }
-
-val items = listOf(
-    ItemData(
-        imageId = R.drawable.image_grand_canyon,
-        title = "해변 놀이 공원1",
-        description = "해1111변 놀이11 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ\n해변 놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ"
-    ),
-    ItemData(
-        imageId = R.drawable.image_grand_canyon,
-        title = "해변 놀이 공원2",
-        description = "해변 놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야222222 루루룰ㄹ룰ㄹ\n해변 놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ"
-    ),ItemData(
-        imageId = R.drawable.image_grand_canyon,
-        title = "해변 놀이 공원3",
-        description = "해변 놀이 공원 설명33333입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ\n해변 놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ"
-    ),
-    ItemData(
-        imageId = R.drawable.image_grand_canyon,
-        title = "해변 놀이 공원4",
-        description = "해변 놀이 공원 설명입니444444444다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ\n해변 놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ"
-    ),
-    ItemData(
-        imageId = R.drawable.image_grand_canyon,
-        title = "해변 놀이 공원5",
-        description = "해변 5555555놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ\n해변 놀이 공원 설명입니다. 해변 놀아놀이놀이 설명이야 루루룰ㄹ룰ㄹ"
-    )
-)
