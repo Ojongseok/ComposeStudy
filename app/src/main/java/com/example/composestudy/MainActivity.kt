@@ -1,55 +1,31 @@
 package com.example.composestudy
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.ConstraintSet
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
+import coil.compose.AsyncImage
 import com.example.composestudy.ui.theme.ComposeStudyTheme
 
 class MainActivity : ComponentActivity() {
@@ -69,89 +45,83 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ConstraintLayoutEx() {
-//    val constraintSet = ConstraintSet {
-//        val redBox = createRefFor("redBox")
-//        val magentaBox = createRefFor("magentaBox")
-//        val greenBox = createRefFor("greenBox")
-//        val yellowBox = createRefFor("yellowBox")
-//
-//        constrain(redBox) {
-//            bottom.linkTo(parent.bottom, margin = 8.dp)
-//            end.linkTo(parent.end)
-//        }
-//        constrain(magentaBox) {
-//            start.linkTo(parent.start)
-//            end.linkTo(parent.end)
-//            top.linkTo(parent.top, margin = 20.dp)
-//        }
-//        constrain(greenBox) {
-//            centerTo(parent)
-//        }
-//        constrain(yellowBox) {
-//            start.linkTo(magentaBox.end)
-//            top.linkTo(magentaBox.bottom)
-//        }
-//    }
-
-    ConstraintLayout(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
+fun ConstraintLayoutEx(modifier: Modifier = Modifier) {
+    Card (
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 8.dp),
+        modifier = modifier.padding(8.dp)
     ) {
-        val (redBox,  yellowBox, magentaBox, text1) = createRefs()
-
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .background(Color.Red)
-                .constrainAs(redBox) {
-
-                }
+        ConstraintLayout(
+            modifier = modifier.fillMaxWidth()
         ) {
+            val (profileImage, author, desc) = createRefs()
 
-        }
+            AsyncImage(
+                model = "https://images.squarespace-cdn.com/content/v1/586ebc34d482e9c69268b69a/1624386831778-1123SHN1YH42IRMPMLQI/20201230172547741_X4PVBAOC.png?format=2500w",
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                placeholder = ColorPainter(color = Color.Green),
+                modifier = modifier
+                    .clip(CircleShape)
+                    .size(52.dp)
+                    .constrainAs(profileImage) {
+//                        top.linkTo(parent.top)
+//                        bottom.linkTo(parent.bottom)
+                        centerVerticallyTo(parent)
+                        start.linkTo(parent.start, margin = 8.dp)
+                    }
+            )
 
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .background(Color.Magenta)
-                .constrainAs(magentaBox) {
-                    top.linkTo(parent.top, margin = 12.dp)
-                }
-        ) {
+            Text(
+                modifier = modifier
+                    .constrainAs(author) {
+                        linkTo(profileImage.end, parent.end, startMargin = 8.dp, endMargin = 8.dp)
+                        width = Dimension.fillToConstraints
+                    },
+                text = "제목입니다."
+            )
 
-        }
-
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .background(Color.Yellow)
-                .constrainAs(yellowBox) {
-                    top.linkTo(magentaBox.bottom, margin = 20.dp)
-                }
-        ) {
-
-        }
-
-        createHorizontalChain(
-            redBox, magentaBox, yellowBox,
-            chainStyle = ChainStyle.SpreadInside
-        )
-
-        val barrier = createBottomBarrier(redBox, magentaBox,yellowBox)
-
-        Text(
-            modifier = Modifier
-                .constrainAs(text1) {
-                    top.linkTo(barrier)
-                    centerHorizontallyTo(parent)
+            Text(
+                modifier = modifier.constrainAs(desc) {
+                    linkTo(profileImage.end, parent.end, startMargin = 8.dp, endMargin = 8.dp)
+                    width = Dimension.fillToConstraints
                 },
-            text = "젯팩 컴포즈"
-        )
+                text = "내용내용입니다.내용내용입니다내용내용입니다내용내용입니다내용내용입니다내용내용입니다"
+            )
+
+            val chain = createVerticalChain(author, desc, chainStyle = ChainStyle.Packed)
+
+            constrain(chain) {
+                top.linkTo(parent.top, margin = 16.dp)
+                bottom.linkTo(parent.bottom, margin = 16.dp)
+            }
+        }
+//        Row(
+//            verticalAlignment = Alignment.CenterVertically,
+//            modifier = modifier.padding(4.dp)
+//        ) {
+//            AsyncImage(
+//                model = "https://images.squarespace-cdn.com/content/v1/586ebc34d482e9c69268b69a/1624386831778-1123SHN1YH42IRMPMLQI/20201230172547741_X4PVBAOC.png?format=2500w",
+//                contentDescription = null,
+//                contentScale = ContentScale.Crop,
+//                placeholder = ColorPainter(color = Color.Green),
+//                modifier = modifier
+//                    .clip(CircleShape)
+//                    .size(52.dp)
+//            )
+//
+//            Column(
+//                modifier = modifier.padding(start = 8.dp)
+//            ) {
+//                Text(text = "제목입니다.")
+//                Spacer(modifier = modifier.size(4.dp))
+//                Text(text = "내용내용입니다.")
+//            }
+//        }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
