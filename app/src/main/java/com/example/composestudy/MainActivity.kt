@@ -39,12 +39,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.composestudy.ui.theme.ComposeStudyTheme
 
@@ -67,19 +69,42 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ConstraintLayoutEx() {
+    val constraintSet = ConstraintSet {
+        val redBox = createRefFor("redBox")
+        val magentaBox = createRefFor("magentaBox")
+        val greenBox = createRefFor("greenBox")
+        val yellowBox = createRefFor("yellowBox")
+
+        constrain(redBox) {
+            bottom.linkTo(parent.bottom, margin = 8.dp)
+            end.linkTo(parent.end)
+        }
+        constrain(magentaBox) {
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+            top.linkTo(parent.top, margin = 20.dp)
+        }
+        constrain(greenBox) {
+            centerTo(parent)
+        }
+        constrain(yellowBox) {
+            start.linkTo(magentaBox.end)
+            top.linkTo(magentaBox.bottom)
+        }
+
+    }
+
     ConstraintLayout(
+        constraintSet,
         modifier = Modifier.fillMaxSize()
     ) {
-        val (redBox, magentaBox, greenBox, yellowBox) = createRefs()
+//        val (redBox, magentaBox, greenBox, yellowBox) = createRefs()
 
         Box(
             modifier = Modifier
                 .size(40.dp)
                 .background(Color.Red)
-                .constrainAs(redBox) {
-                    bottom.linkTo(parent.bottom, margin = 8.dp)
-                    end.linkTo(parent.end)
-                }
+                .layoutId("redBox")
         ) {
 
         }
@@ -88,11 +113,7 @@ fun ConstraintLayoutEx() {
             modifier = Modifier
                 .size(40.dp)
                 .background(Color.Magenta)
-                .constrainAs(magentaBox) {
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    top.linkTo(parent.top, margin = 20.dp)
-                }
+                .layoutId("magentaBox")
         ) {
 
         }
@@ -101,10 +122,7 @@ fun ConstraintLayoutEx() {
             modifier = Modifier
                 .size(40.dp)
                 .background(Color.Yellow)
-                .constrainAs(yellowBox) {
-                    start.linkTo(magentaBox.end)
-                    top.linkTo(magentaBox.bottom)
-                }
+                .layoutId("yellowBox")
         ) {
 
         }
@@ -113,14 +131,7 @@ fun ConstraintLayoutEx() {
             modifier = Modifier
                 .size(40.dp)
                 .background(Color.Green)
-                .constrainAs(greenBox) {
-//                    start.linkTo(parent.start)
-//                    end.linkTo(parent.end)
-//                    top.linkTo(parent.top)
-//                    bottom.linkTo(parent.bottom)
-                    centerTo(parent)
-//                    centerHorizontallyTo(parent)
-                }
+                .layoutId("greenBox")
         ) {
 
         }
