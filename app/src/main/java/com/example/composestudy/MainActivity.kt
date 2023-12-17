@@ -3,6 +3,7 @@ package com.example.composestudy
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -38,87 +41,25 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ConstraintLayoutEx()
+                    CanvasEx()
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ConstraintLayoutEx(modifier: Modifier = Modifier) {
-    Card (
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 8.dp),
-        modifier = modifier.padding(8.dp)
+fun CanvasEx() {
+    Canvas(
+        modifier = Modifier.size(100.dp)
     ) {
-        ConstraintLayout(
-            modifier = modifier.fillMaxWidth()
-        ) {
-            val (profileImage, author, desc) = createRefs()
+        drawLine(Color.Red, Offset(20f, 10f), Offset(35f, 77f))
 
-            AsyncImage(
-                model = "https://images.squarespace-cdn.com/content/v1/586ebc34d482e9c69268b69a/1624386831778-1123SHN1YH42IRMPMLQI/20201230172547741_X4PVBAOC.png?format=2500w",
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                placeholder = ColorPainter(color = Color.Green),
-                modifier = modifier
-                    .clip(CircleShape)
-                    .size(52.dp)
-                    .constrainAs(profileImage) {
-//                        top.linkTo(parent.top)
-//                        bottom.linkTo(parent.bottom)
-                        centerVerticallyTo(parent)
-                        start.linkTo(parent.start, margin = 8.dp)
-                    }
-            )
+        drawCircle(Color.Yellow, 30f, Offset(40f, 40f))
 
-            Text(
-                modifier = modifier
-                    .constrainAs(author) {
-                        linkTo(profileImage.end, parent.end, startMargin = 8.dp, endMargin = 8.dp)
-                        width = Dimension.fillToConstraints
-                    },
-                text = "제목입니다."
-            )
+        drawRect(Color.Magenta, Offset(30f,30f), Size(10f,10f))
 
-            Text(
-                modifier = modifier.constrainAs(desc) {
-                    linkTo(profileImage.end, parent.end, startMargin = 8.dp, endMargin = 8.dp)
-                    width = Dimension.fillToConstraints
-                },
-                text = "내용내용입니다.내용내용입니다내용내용입니다내용내용입니다내용내용입니다내용내용입니다"
-            )
 
-            val chain = createVerticalChain(author, desc, chainStyle = ChainStyle.Packed)
-
-            constrain(chain) {
-                top.linkTo(parent.top, margin = 16.dp)
-                bottom.linkTo(parent.bottom, margin = 16.dp)
-            }
-        }
-//        Row(
-//            verticalAlignment = Alignment.CenterVertically,
-//            modifier = modifier.padding(4.dp)
-//        ) {
-//            AsyncImage(
-//                model = "https://images.squarespace-cdn.com/content/v1/586ebc34d482e9c69268b69a/1624386831778-1123SHN1YH42IRMPMLQI/20201230172547741_X4PVBAOC.png?format=2500w",
-//                contentDescription = null,
-//                contentScale = ContentScale.Crop,
-//                placeholder = ColorPainter(color = Color.Green),
-//                modifier = modifier
-//                    .clip(CircleShape)
-//                    .size(52.dp)
-//            )
-//
-//            Column(
-//                modifier = modifier.padding(start = 8.dp)
-//            ) {
-//                Text(text = "제목입니다.")
-//                Spacer(modifier = modifier.size(4.dp))
-//                Text(text = "내용내용입니다.")
-//            }
-//        }
     }
 }
 
@@ -127,6 +68,6 @@ fun ConstraintLayoutEx(modifier: Modifier = Modifier) {
 @Composable
 fun DefaultPreview() {
     ComposeStudyTheme {
-        ConstraintLayoutEx()
+        CanvasEx()
     }
 }
