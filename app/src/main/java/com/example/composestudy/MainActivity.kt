@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,6 +35,7 @@ import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -70,30 +74,42 @@ fun DialogEx() {
     }
 
     if (openDialog) {
-        AlertDialog(
-            onDismissRequest = {
-                openDialog = false
-            },
-            confirmButton = {
-                Button(onClick = {
-                    counter++
-                    openDialog = false
-                }) {
-                    Text(text = "더하기")
+        Dialog(
+            onDismissRequest = { openDialog = false }
+        ) {
+            Surface {
+                Column(
+                    modifier = Modifier.padding(12.dp)
+                ) {
+                    Text(text = "+1이나 -1버튼을 눌러주세요눌러주세요눌러주세요눌러주세요눌러주세요.")
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Button(onClick = {
+                            openDialog = false
+                        }) {
+                            Text(text = "취소")
+                        }
+                        Button(onClick = {
+                            openDialog = false
+                            counter--
+                        }) {
+                            Text(text = "-1")
+                        }
+                        Button(onClick = {
+                            openDialog = false
+                            counter++
+                        }) {
+                            Text(text = "+1")
+                        }
+                    }
+
                 }
-            },
-            dismissButton = {
-                Button(onClick = { openDialog = false }) {
-                    Text(text = "취소")
-                }
-            },
-            title = {
-                Text(text = "더하기 타이틀")
-            },
-            text = {
-                Text(text = "더하기 버튼을 누르면 counter가 증가합니다.")
             }
-        )
+        }
     }
 }
 
