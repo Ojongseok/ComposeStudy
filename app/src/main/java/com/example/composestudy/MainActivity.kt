@@ -16,6 +16,8 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -52,7 +54,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    DialogEx()
+                    DropDownMenuEx()
                 }
             }
         }
@@ -60,64 +62,36 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun DialogEx() {
-    var openDialog by remember { mutableStateOf(false) }
+fun DropDownMenuEx() {
+    var expandDropDownMenu by remember { mutableStateOf(false) }
     var counter by remember { mutableStateOf(0) }
 
     Column {
-        Button(onClick = {
-            openDialog = true
-        }) {
-            Text(text = "다이어로그 열기")
+        Button(onClick = {expandDropDownMenu = true}) {
+            Text(text = "드롣다운 메뉴 열기")
         }
         Text(text = "카운터 : $counter")
     }
 
-    if (openDialog) {
-        Dialog(
-            onDismissRequest = { openDialog = false }
-        ) {
-            Surface {
-                Column(
-                    modifier = Modifier.padding(12.dp)
-                ) {
-                    Text(text = "+1이나 -1버튼을 눌러주세요눌러주세요눌러주세요눌러주세요눌러주세요.")
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Button(onClick = {
-                            openDialog = false
-                        }) {
-                            Text(text = "취소")
-                        }
-                        Button(onClick = {
-                            openDialog = false
-                            counter--
-                        }) {
-                            Text(text = "-1")
-                        }
-                        Button(onClick = {
-                            openDialog = false
-                            counter++
-                        }) {
-                            Text(text = "+1")
-                        }
-                    }
-
-                }
-            }
-        }
+    DropdownMenu(
+        expanded = expandDropDownMenu,
+        onDismissRequest = { expandDropDownMenu=false }
+    ) {
+        DropdownMenuItem(
+            text = { Text(text = "증가") },
+            onClick = { counter++ }
+        )
+        DropdownMenuItem(
+            text = { Text(text = "감소") },
+            onClick = { counter-- }
+        )
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     ComposeStudyTheme {
-        DialogEx()
+        DropDownMenuEx()
     }
 }
