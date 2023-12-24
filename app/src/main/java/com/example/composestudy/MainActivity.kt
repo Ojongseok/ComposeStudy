@@ -7,9 +7,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateColor
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.scaleIn
@@ -91,117 +95,176 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AnimationEx() {
-    var helloWorldVisible by remember { mutableStateOf(true) }
-    var isRed by remember { mutableStateOf(false) }
+    var isDarkMode by remember { mutableStateOf(false) }
 
-    // State에 따라 Red부터 White로 변하는 상태를 보관하는 용도
-    val backgroundColor by animateColorAsState(
-        targetValue = if (isRed) Color.Red else Color.White, label = ""
-    )
+    val transition = updateTransition(targetState = isDarkMode, label = "다크모드 관리")
 
-    // State에 따라 0.5 ~ 1.0 사이의 수치를 모두 가짐
-    val alpha by animateFloatAsState(
-        targetValue = if (isRed) 1.0f else 0.5f, label = ""
-    )
+    val backgroundColor by transition.animateColor(label = "") {
+        when(it) {
+            true -> Color.Black
+            false -> Color.White
+        }
+    }
+
+    val color by transition.animateColor(label = "") {
+        when(it) {
+            true -> Color.White
+            false -> Color.Black
+        }
+    }
+
+    val alpha by transition.animateFloat(label = "") {
+        when(it) {
+            true -> 0.5f
+            false -> 1.0f
+        }
+    }
 
     Column(
         modifier = Modifier
-            .padding(16.dp)
             .background(backgroundColor)
             .alpha(alpha)
     ) {
-        AnimatedVisibility(
-            visible = helloWorldVisible,
-            enter = slideInVertically() + expandHorizontally()
-        ) {
-            Text(text = "Hello World!")
+        RadioButtonWithText(text = "일반 모드", color = color, selected = !isDarkMode) {
+            isDarkMode = false
+        }
+        RadioButtonWithText(text = "다크 모드", color = color, selected = isDarkMode) {
+            isDarkMode = true
         }
 
-        Row(
-            modifier = Modifier.selectable(
-                selected = helloWorldVisible,
-                onClick = {
-                    helloWorldVisible = true
+//        Row {
+//            Box(
+//                modifier = Modifier
+//                    .background(Color.Red)
+//                    .size(20.dp),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Text(text = "1", color = Color.White)
+//            }
+//            Box(
+//                modifier = Modifier
+//                    .background(Color.Green)
+//                    .size(20.dp),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Text(text = "2", color = Color.White)
+//            }
+//            Box(
+//                modifier = Modifier
+//                    .background(Color.Magenta)
+//                    .size(20.dp),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Text(text = "3", color = Color.White)
+//            }
+//        }
+        Crossfade(targetState = isDarkMode, label = "") {
+            when(it) {
+                true -> {
+                    Row {
+                        Box(
+                            modifier = Modifier
+                                .background(Color.Red)
+                                .size(20.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = "1", color = Color.White)
+                        }
+                        Box(
+                            modifier = Modifier
+                                .background(Color.Green)
+                                .size(20.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = "2", color = Color.White)
+                        }
+                        Box(
+                            modifier = Modifier
+                                .background(Color.Magenta)
+                                .size(20.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = "3", color = Color.White)
+                        }
+                    }
                 }
-            ),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            RadioButton(
-                selected = helloWorldVisible,
-                onClick = {
-                    helloWorldVisible = true
+                false -> {
+                    Column {
+                        Box(
+                            modifier = Modifier
+                                .background(Color.Red)
+                                .size(20.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = "a", color = Color.White)
+                        }
+                        Box(
+                            modifier = Modifier
+                                .background(Color.Green)
+                                .size(20.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = "b", color = Color.White)
+                        }
+                        Box(
+                            modifier = Modifier
+                                .background(Color.Magenta)
+                                .size(20.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = "c", color = Color.White)
+                        }
+                    }
                 }
-            )
-            Text(text = "Hello World 보이기")
-        }
-
-        Row(
-            modifier = Modifier.selectable(
-                selected = !helloWorldVisible,
-                onClick = {
-                    helloWorldVisible = false
-                }
-            ),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            RadioButton(
-                selected = !helloWorldVisible,
-                onClick = {
-                    helloWorldVisible = false
-                }
-            )
-            Text(text = "Hello World 감추기")
-        }
-
-
-        Text(text = "배경색을 바꾸어봅시다.")
-
-        Row(
-            modifier = Modifier.selectable(
-                selected = !isRed,
-                onClick = {
-                    isRed = false
-                }
-            ),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            RadioButton(
-                selected = !isRed,
-                onClick = {
-                    isRed = false
-                }
-            )
-            Text(text = "흰색")
-        }
-
-        Row(
-            modifier = Modifier.selectable(
-                selected = isRed,
-                onClick = {
-                    isRed = true
-                }
-            ),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            RadioButton(
-                selected = isRed,
-                onClick = {
-                    isRed = true
-                }
-            )
-            Text(text = "빨간색")
+            }
         }
     }
 }
 
-@ExperimentalMaterial3Api
+@Composable
+fun RadioButtonWithText(
+    text: String,
+    color: Color = Color.Black,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier.selectable(
+            selected = selected,
+            onClick = onClick
+        ),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RadioButton(
+            selected = selected,
+            onClick = onClick
+        )
+        Text(
+            text = text,
+            color = color
+        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     ComposeStudyTheme {
         AnimationEx()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RadioButtonWithTextPreview() {
+    ComposeStudyTheme {
+        RadioButtonWithText(
+            text = "라디오 버튼",
+            color = Color.Red,
+            selected = true,
+            onClick = {}
+        )
     }
 }
