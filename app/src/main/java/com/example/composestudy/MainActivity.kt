@@ -4,92 +4,42 @@ package com.example.composestudy
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.animateColor
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.updateTransition
-import androidx.compose.animation.expandHorizontally
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.ColorPainter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.constraintlayout.compose.ChainStyle
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
-import coil.compose.AsyncImage
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.composestudy.ui.theme.ComposeStudyTheme
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,16 +58,23 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Composable
-fun TopLevel() {
-    val (text, setText) = remember { mutableStateOf("") }
-    val toDoList = remember { mutableStateListOf<ToDoData>() }
 
-    val onSubmit: (String) -> Unit = {
+class ToDoViewModel: ViewModel() {
+    var text by mutableStateOf("")
+    val toDoList = mutableStateListOf<ToDoData>()
+
+//    val onSubmit: (String) -> Unit = {
+//        val key = (toDoList.lastOrNull()?.key ?: 0) + 1
+//        toDoList.add(ToDoData(key, it)).apply {
+//            text = ""
+//        }
+//    }
+
+    // 함수로 바꿔보기
+    fun onSubmit(input: String) {
         val key = (toDoList.lastOrNull()?.key ?: 0) + 1
-        toDoList.add(ToDoData(key, text)).apply {
-            setText("")
+        toDoList.add(ToDoData(key, input)).apply {
+            text = ""
         }
     }
 
@@ -140,22 +97,63 @@ fun TopLevel() {
         val i = toDoList.indexOfFirst { it.key == key }
         toDoList[i] = toDoList[i].copy(text = text)
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+fun TopLevel(
+    viewModel: ToDoViewModel = viewModel()
+) {
+//    val (text, setText) = remember { mutableStateOf("") }
+//    val toDoList = remember { mutableStateListOf<ToDoData>() }
+
+//    val onSubmit: (String) -> Unit = {
+//        val key = (toDoList.lastOrNull()?.key ?: 0) + 1
+//        toDoList.add(ToDoData(key, it)).apply {
+//            viewModel.text = ""
+//        }
+//    }
+//
+//    // MutableStateList는 element의 추가, 삭제, 변경되었을 때만 상태변경을 인식해 ui가 갱신된다.
+//    // 항목 하나의 값을 바꾸는 것보다 항목을 카피해서 인덱스에 다시 할당하는 방식으로 작성
+//    val onToggle: (Int, Boolean) -> Unit = { key, checked ->
+//        val i = toDoList.indexOfFirst {
+//            it.key == key
+//        }
+//        val newToDoList = toDoList[i].copy(done = checked)
+//        toDoList[i] = newToDoList
+//    }
+//
+//    val onDelete: (Int) -> Unit = { key ->
+//        val i = toDoList.indexOfFirst { it.key == key }
+//        toDoList.removeAt(i)
+//    }
+//
+//    val onEdit: (Int, String) -> Unit = { key, text ->
+//        val i = toDoList.indexOfFirst { it.key == key }
+//        toDoList[i] = toDoList[i].copy(text = text)
+//    }
 
     Scaffold {
         Column {
             ToDoInput(
-                text = text,
-                onTextChange = setText,
-                onSubmit = onSubmit
+                text = viewModel.text,
+                onTextChange = {
+                   viewModel.text = it
+                },
+                onSubmit = {
+                    viewModel.onSubmit(it)
+                }
             )
 
             LazyColumn {
-                items(toDoList, key = { it.key}) {
+                items(viewModel.toDoList, key = { it.key}) {
                     Todo(
                         toDoData = it,
-                        onToggle = onToggle,
-                        onDelete = onDelete,
-                        onEdit = onEdit
+                        onToggle = viewModel.onToggle,
+                        onDelete = viewModel.onDelete,
+                        onEdit = viewModel.onEdit
                     )
                 }
             }
