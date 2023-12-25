@@ -35,6 +35,21 @@
 03. ConstraintLayout
 04. ConstraintLayout(ConstraintSet
 05. ConstraintLayout(Chain, Barrier)
+06. ConstraintLayout 활용
+07. Canvas
+08. Dialog
+09. Custom Dialog
+10. DropDownMenu
+11. SnackBar
+12. BottomAppBar
+13. State와 State Hoisting
+14. 애니메이션 (1)
+15. 애니메이션 (2)
+16. Side Effect (1)
+17. Side Effect (2)
+18. ToDo 앱 구현하기
 
-
+#### Ch 05. Compose 아키텍처
+01. 인트로
+02. ViewModel
 
