@@ -53,12 +53,14 @@ android {
 dependencies {
     // Constraint Layout
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
-
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
     // LiveData
     implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
+
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:2.7.6")
 
     implementation("io.coil-kt:coil:2.2.0")
     implementation("io.coil-kt:coil-compose:2.2.0")

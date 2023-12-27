@@ -15,16 +15,18 @@
         android:theme="@style/Theme.ComposeStudy"
         tools:targetApi="31">
         <activity
+            android:name=".CompositionLocalActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".CompositionLocalActivity"
+            android:name=".NavigationActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ComposeStudy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
