@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -61,6 +63,17 @@ dependencies {
 
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.6")
+
+    // Hilt 의존성
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation("com.google.code.gson:gson:2.10.1")
 
     implementation("io.coil-kt:coil:2.2.0")
     implementation("io.coil-kt:coil-compose:2.2.0")

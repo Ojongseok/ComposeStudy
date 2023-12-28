@@ -42,7 +42,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.composestudy.ui.theme.ComposeStudyTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,9 +55,23 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    TopLevel()
+                    ReposScreen()
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun ReposScreen(viewModel: GithubViewModel = viewModel()) {
+    LazyColumn {
+        item {
+            Button(onClick = {viewModel.getRepos()}) {
+                Text(text = "레포지토리 가져오기")
+            }
+        }
+        items(viewModel.repos) {
+            Text(text = it.name)
         }
     }
 }
