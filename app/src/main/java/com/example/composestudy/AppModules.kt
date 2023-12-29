@@ -10,7 +10,6 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -20,7 +19,7 @@ class AppModules {
     @Singleton
     @Provides
     @Named("API_URI")
-    fun provideWebAPI(): String = "https://api.github.com/"
+    fun provideWebAPI(): String = "https://pokeapi.co/api/v2/"
 
     @Singleton
     @Provides
@@ -44,5 +43,5 @@ class AppModules {
     @Provides
     fun provideGithubService(
         retrofit: Retrofit
-    ): GithubService = retrofit.create(GithubService::class.java)
+    ): PokeApi = retrofit.create(PokeApi::class.java)
 }

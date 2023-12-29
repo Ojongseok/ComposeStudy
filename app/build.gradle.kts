@@ -73,7 +73,12 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
+    // Gson
     implementation("com.google.code.gson:gson:2.10.1")
+
+    // Paging
+    implementation("androidx.paging:paging-common-ktx:3.1.1")
+    implementation("androidx.paging:paging-compose:1.0.0-alpha15")
 
     implementation("io.coil-kt:coil:2.2.0")
     implementation("io.coil-kt:coil-compose:2.2.0")
