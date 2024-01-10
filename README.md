@@ -52,4 +52,18 @@
 #### Ch 05. Compose 아키텍처
 01. 인트로
 02. ViewModel
+03. LiveData
+04. CompositionalLocal
+05. Theme
+06. Navigation
+07. DI 의존성 주입
+08. Unidirectional Data Flow
+09. Pokemon App
+
+### [Part 2] Jetpack Compose 실무 심화
+#### Ch 01. 오리엔테이션
+01. 오리엔테이션
+
+#### Ch 02. Compose 성능 최적화
+01. 인트로
 
