@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -53,35 +54,34 @@ android {
 }
 
 dependencies {
-    // Constraint Layout
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
-    // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:${rootProject.extra["kotlin_version"]}"))
+    implementation("androidx.core:core-ktx:${rootProject.extra["kotlin_version"]}")
 
-    // LiveData
-    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
+    // LifeCycle
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${rootProject.extra["lifecycle_version"]}")
+
+    implementation("io.coil-kt:coil-compose:${rootProject.extra["coil_version"]}")
 
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.6")
+    implementation("androidx.navigation:navigation-fragment-ktx:${rootProject.extra["nav_version"]}")
+    implementation("androidx.navigation:navigation-ui-ktx:${rootProject.extra["nav_version"]}")
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:${rootProject.extra["nav_version"]}")
 
-    // Hilt 의존성
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    // Hilt
+    implementation("com.google.dagger:hilt-android:${rootProject.extra["hilt_version"]}")
+    implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
+    kapt("com.google.dagger:hilt-android-compiler:${rootProject.extra["hilt_version"]}")
+
+    // Timber
+    implementation("com.jakewharton.timber:timber:${rootProject.extra["timber_version"]}")
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:${rootProject.extra["retrofit_version"]}")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:${rootProject.extra["retrofit_version"]}")
 
     // Gson
-    implementation("com.google.code.gson:gson:2.10.1")
-
-    // Paging
-    implementation("androidx.paging:paging-common-ktx:3.1.1")
-    implementation("androidx.paging:paging-compose:1.0.0-alpha15")
-
-    implementation("io.coil-kt:coil:2.2.0")
-    implementation("io.coil-kt:coil-compose:2.2.0")
+    implementation("com.google.code.gson:gson:${rootProject.extra["gson_version"]}")
 
     implementation("androidx.core:core-ktx:1.8.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
