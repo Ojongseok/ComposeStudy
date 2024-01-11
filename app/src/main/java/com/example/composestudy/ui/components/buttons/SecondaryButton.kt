@@ -1,6 +1,7 @@
-package com.example.composestudy.ui.buttons
+package com.example.composestudy.ui.components.buttons
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PrimaryButton(
+fun SecondaryButton(
     modifier: Modifier = Modifier,
     @StringRes id: Int? = null,
     text: String = "",
@@ -27,10 +28,11 @@ fun PrimaryButton(
     Button(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
+        border = BorderStroke(2.dp, Color.Red),
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Red,
-            contentColor = Color.White,
+            containerColor = Color.White,
+            contentColor = Color.Black,
             disabledContainerColor = Color.Blue,
             disabledContentColor = Color.White
         )
@@ -49,8 +51,8 @@ fun PrimaryButton(
 
 @Preview
 @Composable
-fun PrimaryButtonPreview() {
-    PrimaryButton(text = "버튼") {
+fun SecondaryButtonPreview() {
+    SecondaryButton(text = "버튼") {
 
     }
 }

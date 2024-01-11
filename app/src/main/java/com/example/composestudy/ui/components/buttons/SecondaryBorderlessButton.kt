@@ -1,4 +1,4 @@
-package com.example.composestudy.ui.buttons
+package com.example.composestudy.ui.components.buttons
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
@@ -14,12 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun UnderlinedTextButton(
+fun SecondaryBorderlessButton(
     modifier: Modifier = Modifier,
     @StringRes id: Int? = null,
     text: String = "",
@@ -42,8 +41,7 @@ fun UnderlinedTextButton(
         ) {
             Text(
                 text = id?.let { stringResource(id = id) } ?: text,
-                modifier = modifier.padding(8.dp),
-                textDecoration = TextDecoration.Underline
+                modifier = modifier.padding(8.dp)
             )
         }
     }
@@ -51,8 +49,8 @@ fun UnderlinedTextButton(
 
 @Preview
 @Composable
-fun UnderlinedTextButtonPreview() {
-    UnderlinedTextButton(text = "버튼") {
+fun SecondaryBorderlessButtonPreview() {
+    SecondaryBorderlessButton(text = "버튼") {
 
     }
 }
