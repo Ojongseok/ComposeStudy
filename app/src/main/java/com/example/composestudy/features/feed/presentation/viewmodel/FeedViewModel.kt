@@ -33,6 +33,7 @@ class FeedViewModel @Inject constructor(
 
     init {
         fetchFeed()
+        //커밋테스트
     }
 
     private fun fetchFeed() {
