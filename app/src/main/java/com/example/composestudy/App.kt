@@ -8,6 +8,8 @@ import timber.log.Timber
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
+
+        // 로그찍는 라이브러리
         Timber.plant(Timber.DebugTree())
     }
 }
