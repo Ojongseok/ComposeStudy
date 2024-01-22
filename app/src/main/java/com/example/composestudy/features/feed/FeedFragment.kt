@@ -18,8 +18,6 @@ class FeedFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        viewModel.getMovies()
-
         return ComposeView(requireContext()).apply {
             setContent {
                 ComposeStudyTheme {
@@ -27,6 +25,5 @@ class FeedFragment : Fragment() {
                 }
             }
         }
-
     }
 }

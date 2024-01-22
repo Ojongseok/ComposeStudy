@@ -2,7 +2,9 @@ package com.example.composestudy.features.feed.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.composestudy.features.common.entity.EntityWrapper
 import com.example.composestudy.features.common.repository.MovieRepository
+import com.example.composestudy.features.feed.domain.usecase.IGetFeedCategoryUseCase
 import com.example.composestudy.features.feed.presentation.input.IFeedViewModelInput
 import com.example.composestudy.features.feed.presentation.output.FeedState
 import com.example.composestudy.features.feed.presentation.output.FeedUiEffect
@@ -17,22 +19,39 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val movieRepository: MovieRepository,
+    private val getFeedCategoryUseCase: IGetFeedCategoryUseCase
 ): ViewModel(), IFeedViewModelInput, IFeedViewModelOutput {
 
     // 화면에 보여주기 위한 Flow
     private val _feedState: MutableStateFlow<FeedState> = MutableStateFlow(FeedState.Loading)
     override val feedState: StateFlow<FeedState> get() = _feedState
 
-    private val _feedUiEffect = MutableSharedFlow<FeedUiEffect>(replay = 0)
-    override val feedUiEffect: SharedFlow<FeedUiEffect> get() = feedUiEffect
-
     // 유저로부터 입력을 받아 Fragment 단에서 액션을 수행하기 위한 Flow
-    val feedUiState: SharedFlow<FeedUiEffect> get() = _feedUiEffect
+    override val feedUiEffect: SharedFlow<FeedUiEffect> get() = feedUiEffect
+    private val _feedUiEffect = MutableSharedFlow<FeedUiEffect>(replay = 0)
 
-    fun getMovies() {
+    init {
+        fetchFeed()
+    }
+
+    private fun fetchFeed() {
         viewModelScope.launch {
-            movieRepository.getMovieList()
+            _feedState.value = FeedState.Loading
+
+            val categories = getFeedCategoryUseCase()
+            _feedState.value = when(categories) {
+                is EntityWrapper.Success -> {
+                    FeedState.Main(
+                        categories = categories.entity
+                    )
+                }
+                is EntityWrapper.Fail -> {
+                    FeedState.Failed(
+                        reason = categories.error.message ?: "Unknown Message"
+                    )
+                }
+            }
         }
     }
 
