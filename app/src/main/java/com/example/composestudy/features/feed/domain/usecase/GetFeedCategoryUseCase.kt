@@ -9,7 +9,9 @@ import javax.inject.Inject
 class GetFeedCategoryUseCase @Inject constructor(
     private val dataSource: IMovieDataSource
 ): IGetFeedCategoryUseCase {
-    override suspend fun invoke(sortOrder: SortOrder?): EntityWrapper<List<CategoryEntity>> {
+    override suspend fun invoke(
+        sortOrder: SortOrder?
+    ): EntityWrapper<List<CategoryEntity>> {
         return dataSource.getCategories(sortOrder)
     }
 }
