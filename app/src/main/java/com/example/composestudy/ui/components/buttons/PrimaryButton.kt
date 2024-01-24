@@ -28,7 +28,7 @@ import com.example.composestudy.ui.models.buttons.LeadingIconData
 fun PrimaryButton(
     modifier: Modifier = Modifier,
     @StringRes id: Int? = null,
-    leadingIconData: LeadingIconData?,
+    leadingIconData: LeadingIconData? = null,
     text: String = "",
     onClick: () -> Unit
 ) {

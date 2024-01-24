@@ -103,9 +103,3 @@ fun Poster(
         )
     }
 }
-
-//@Preview
-//@Composable
-//fun MovieItemPreview() {
-//    MovieItem()
-//}
